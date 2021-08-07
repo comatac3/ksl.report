@@ -1,4 +1,3 @@
-import logo from "./logo.svg";
 import "./App.css";
 import { useEffect, useState, Fragment } from "react";
 const axios = require("axios");
@@ -195,6 +194,50 @@ function App() {
                 </p>
                 <h3 class="font-weight-medium my-2">
                   <span data-plugin="counterup">{notes["(3)คงเหลือ"]} ใบ</span>
+                </h3>
+                <p class="m-0">งวดที่ 1 สิงหาคม</p>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="col-xl-3 col-sm-6">
+          <div class="card-box widget-box-two widget-two-custom">
+            <div class="media">
+              <div
+                class="
+                        avatar-lg
+                        rounded-circle
+                        bg-primary
+                        widget-two-icon
+                        align-self-center
+                      "
+              >
+                <i
+                  class="
+                          mdi mdi-crown
+                          avatar-title
+                          font-30
+                          text-white
+                        "
+                ></i>
+              </div>
+
+              <div class="wigdet-two-content media-body">
+                <p
+                  class="
+                          m-0
+                          text-uppercase
+                          font-weight-medium
+                          text-truncate
+                        "
+                  title="Statistics"
+                >
+                  ขายรวม
+                </p>
+                <h3 class="font-weight-medium my-2">
+                  <span data-plugin="counterup">
+                    {notes["(1)ขายแล้ว"] + notes["(2)รอตรวจสอบ"]} ใบ
+                  </span>
                 </h3>
                 <p class="m-0">งวดที่ 1 สิงหาคม</p>
               </div>
