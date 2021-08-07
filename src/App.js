@@ -1,5 +1,6 @@
 import "./App.css";
 import { useEffect, useState, Fragment } from "react";
+import { Line } from "react-chartjs-2";
 const axios = require("axios");
 function App() {
   const [notes, getNotes] = useState();
@@ -25,6 +26,18 @@ function App() {
     }, MINUTE_MS);
     return () => clearInterval(interval);
   }, []);
+  const data = {
+    labels: ["06", "07", "08", "09", "10", "11", "12", "13", "14", "15", "16"],
+    datasets: [
+      {
+        label: "ยอดขายรายวัน",
+        data: [15566232 / 80, 7714111 / 80, 0, 0, 0, 0, 0, 0, 0, 0, 0],
+        fill: false,
+        backgroundColor: "rgb(255, 99, 132)",
+        borderColor: "rgba(255, 99, 132, 0.2)",
+      },
+    ],
+  };
   if (notes) {
     return (
       <Fragment>
@@ -242,6 +255,11 @@ function App() {
                 <p class="m-0">งวดที่ 1 สิงหาคม</p>
               </div>
             </div>
+          </div>
+        </div>
+        <div class="col-xl-12">
+          <div class="card-box widget-box-two widget-two-custom">
+            <Line data={data} />
           </div>
         </div>
       </Fragment>
