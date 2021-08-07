@@ -190,10 +190,12 @@ function App() {
                         "
                   title="Statistics"
                 >
-                  คงเหลือ
+                  ขายรวม
                 </p>
                 <h3 class="font-weight-medium my-2">
-                  <span data-plugin="counterup">{notes["(3)คงเหลือ"]} ใบ</span>
+                  <span data-plugin="counterup">
+                    {notes["(1)ขายแล้ว"] + notes["(2)รอตรวจสอบ"]} ใบ
+                  </span>
                 </h3>
                 <p class="m-0">งวดที่ 1 สิงหาคม</p>
               </div>
@@ -232,12 +234,10 @@ function App() {
                         "
                   title="Statistics"
                 >
-                  ขายรวม
+                  คงเหลือ
                 </p>
                 <h3 class="font-weight-medium my-2">
-                  <span data-plugin="counterup">
-                    {notes["(1)ขายแล้ว"] + notes["(2)รอตรวจสอบ"]} ใบ
-                  </span>
+                  <span data-plugin="counterup">{notes["(3)คงเหลือ"]} ใบ</span>
                 </h3>
                 <p class="m-0">งวดที่ 1 สิงหาคม</p>
               </div>
