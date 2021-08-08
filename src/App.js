@@ -4,6 +4,7 @@ import { Line } from "react-chartjs-2";
 const axios = require("axios");
 function App() {
   const [notes, getNotes] = useState();
+  const [today, getToday] = useState(0);
   const MINUTE_MS = 600000;
   useEffect(() => {
     axios
@@ -13,6 +14,14 @@ function App() {
       .then((response) => {
         const resp = response.data;
         getNotes(resp);
+      });
+    axios
+      .get(
+        "https://asia-east2-kslproject.cloudfunctions.net/api/v1/orders/sales/2021-08-08"
+      )
+      .then((response) => {
+        const resp = response.data.total;
+        getToday(resp);
       });
     const interval = setInterval(() => {
       axios
@@ -31,7 +40,7 @@ function App() {
     datasets: [
       {
         label: "ยอดขายรายวัน",
-        data: [15566232 / 80, 7714111 / 80, 0, 0, 0, 0, 0, 0, 0, 0, 0],
+        data: [15566232 / 80, 9051686 / 80, today / 80, 0, 0, 0, 0, 0, 0, 0, 0],
         fill: false,
         backgroundColor: "rgb(255, 99, 132)",
         borderColor: "rgba(255, 99, 132, 0.2)",
