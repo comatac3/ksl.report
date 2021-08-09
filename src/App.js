@@ -17,7 +17,7 @@ function App() {
       });
     axios
       .get(
-        "https://asia-east2-kslproject.cloudfunctions.net/api/v1/orders/sales/2021-08-08"
+        "https://asia-east2-kslproject.cloudfunctions.net/api/v1/orders/sales/2021-08-09"
       )
       .then((response) => {
         const resp = response.data.total;
@@ -40,7 +40,19 @@ function App() {
     datasets: [
       {
         label: "ยอดขายรายวัน (ใบ)",
-        data: [15566232 / 80, 9051686 / 80, today / 80, 0, 0, 0, 0, 0, 0, 0, 0],
+        data: [
+          25913200 / 80,
+          13822720 / 80,
+          11536800 / 80,
+          today / 80,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+        ],
         fill: false,
         backgroundColor: "rgb(255, 99, 132)",
         borderColor: "rgba(255, 99, 132, 0.2)",
