@@ -4,7 +4,7 @@ import { Line } from "react-chartjs-2";
 const axios = require("axios");
 function App() {
   const [notes, getNotes] = useState();
-  const [today, getToday] = useState(0);
+  const [today, getToday] = useState({});
   const MINUTE_MS = 600000;
   useEffect(() => {
     axios
@@ -17,10 +17,10 @@ function App() {
       });
     axios
       .get(
-        "https://asia-east2-kslproject.cloudfunctions.net/api/v1/orders/sales/2021-08-09"
+        "https://asia-east2-kslproject.cloudfunctions.net/api/v1/serviceStatus/count-lottery-date"
       )
       .then((response) => {
-        const resp = response.data.total;
+        const resp = response.data;
         getToday(resp);
       });
     const interval = setInterval(() => {
@@ -32,27 +32,56 @@ function App() {
           const resp = response.data;
           getNotes(resp);
         });
+      axios
+        .get(
+          "https://asia-east2-kslproject.cloudfunctions.net/api/v1/serviceStatus/count-lottery-date"
+        )
+        .then((response) => {
+          const resp = response.data.total;
+          getToday(resp);
+        });
     }, MINUTE_MS);
     return () => clearInterval(interval);
   }, []);
+
+  console.log(today);
+  // for (const key in today) {
+  //   date.push(key);
+  //   value.push(today[key]);
+  //   console.log(key);
+  // }
+
+  let label = [
+    "4/8/2564",
+    "5/8/2564",
+    "6/8/2564",
+    "7/8/2564",
+    "8/8/2564",
+    "9/8/2564",
+    "10/8/2564",
+    "11/8/2564",
+    "12/8/2564",
+    "13/8/2564",
+    "14/8/2564",
+    "15/8/2564",
+    "16/8/2564",
+  ];
+  let value = [];
+  label.map((v) => {
+    console.log(today[v]);
+    if (today[v] !== "undefined") {
+      value.push(today[v]);
+    } else {
+      value.push(0);
+    }
+  });
+
   const data = {
-    labels: ["06", "07", "08", "09", "10", "11", "12", "13", "14", "15", "16"],
+    labels: label,
     datasets: [
       {
         label: "ยอดขายรายวัน (ใบ)",
-        data: [
-          25913200 / 80,
-          13822720 / 80,
-          11536800 / 80,
-          today / 80,
-          0,
-          0,
-          0,
-          0,
-          0,
-          0,
-          0,
-        ],
+        data: value,
         fill: false,
         backgroundColor: "rgb(255, 99, 132)",
         borderColor: "rgba(255, 99, 132, 0.2)",
@@ -281,57 +310,10 @@ function App() {
         <div class="col-xl-12">
           <div class="card-box widget-box-two widget-two-custom">
             <Line data={data} />
+            {console.log(today)}
           </div>
         </div>
       </Fragment>
-      // <div className="App">
-      //   <div className="row">
-      //     <div
-      //       className="col-md-3 rounded"
-      //       style={{
-      //         backgroundColor: "#0b61c0",
-      //         color: "white",
-      //         padding: "6px",
-      //       }}
-      //     >
-      //       <h6>ลอตเตอรี่ในระบบทั้งหมด</h6>
-      //       <h1>{notes["ทั้งหมด"]}</h1>
-      //     </div>
-      //     <div
-      //       className="col-md-3 rounded"
-      //       style={{
-      //         backgroundColor: "#27a745",
-      //         color: "white",
-      //         padding: "6px",
-      //       }}
-      //     >
-      //       <h6>ขายแล้ว</h6>
-      //       <h1>{notes["ขายแล้ว"]}</h1>
-      //     </div>
-      //     <div
-      //       className="col-md-3 rounded"
-      //       style={{
-      //         backgroundColor: "#bc9315",
-      //         color: "white",
-      //         padding: "6px",
-      //       }}
-      //     >
-      //       <h6>รอ Approve (Support)</h6>
-      //       <h1>{notes["รอตรวจสอบ"]}</h1>
-      //     </div>
-      //     <div
-      //       className="col-md-3 rounded gradient-bx"
-      //       style={{
-      //         backgroundColor: "#F46B68",
-      //         color: "white",
-      //         padding: "6px",
-      //       }}
-      //     >
-      //       <h6>คงเหลือ</h6>
-      //       <h1>{notes["คงเหลือ"]}</h1>
-      //     </div>
-      //   </div>
-      // </div>
     );
   } else {
     return <div>waiting</div>;
