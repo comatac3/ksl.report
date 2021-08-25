@@ -12,6 +12,7 @@ let day = 1;
 for (day = 1; day <= daysOfMonth; day++) {
   dayArr.push(day + "/" + month + "/" + thaiYear);
 }
+console.log("test");
 
 function App() {
   const [notes, getNotes] = useState();
