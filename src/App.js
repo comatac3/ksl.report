@@ -2,6 +2,17 @@ import "./App.css";
 import { useEffect, useState, Fragment } from "react";
 import { Line } from "react-chartjs-2";
 const axios = require("axios");
+let date = new Date();
+let thaiYear = date.getFullYear() + 543;
+let month = date.getMonth() + 1;
+let daysOfMonth = new Date(date.getYear(), date.getMonth(), 0).getDate();
+
+let dayArr = [];
+let day = 1;
+for (day = 1; day <= daysOfMonth; day++) {
+  dayArr.push(day + "/" + month + "/" + thaiYear);
+}
+
 function App() {
   const [notes, getNotes] = useState();
   const [today, getToday] = useState({});
@@ -23,51 +34,31 @@ function App() {
         const resp = response.data;
         getToday(resp);
       });
-    const interval = setInterval(() => {
-      axios
-        .get(
-          "https://asia-east2-kslproject.cloudfunctions.net/api/v1/serviceStatus/count-lottery"
-        )
-        .then((response) => {
-          const resp = response.data;
-          getNotes(resp);
-        });
-      axios
-        .get(
-          "https://asia-east2-kslproject.cloudfunctions.net/api/v1/serviceStatus/count-lottery-date"
-        )
-        .then((response) => {
-          const resp = response.data.total;
-          getToday(resp);
-        });
-    }, MINUTE_MS);
-    return () => clearInterval(interval);
+    // const interval = setInterval(() => {
+    //   axios
+    //     .get(
+    //       "https://asia-east2-kslproject.cloudfunctions.net/api/v1/serviceStatus/count-lottery"
+    //     )
+    //     .then((response) => {
+    //       const resp = response.data;
+    //       getNotes(resp);
+    //     });
+    //   axios
+    //     .get(
+    //       "https://asia-east2-kslproject.cloudfunctions.net/api/v1/serviceStatus/count-lottery-date"
+    //     )
+    //     .then((response) => {
+    //       const resp = response.data.total;
+    //       getToday(resp);
+    //     });
+    // }, MINUTE_MS);
+    // return () => clearInterval(interval);
   }, []);
 
   console.log(today);
-  // for (const key in today) {
-  //   date.push(key);
-  //   value.push(today[key]);
-  //   console.log(key);
-  // }
 
-  let label = [
-    "4/8/2564",
-    "5/8/2564",
-    "6/8/2564",
-    "7/8/2564",
-    "8/8/2564",
-    "9/8/2564",
-    "10/8/2564",
-    "11/8/2564",
-    "12/8/2564",
-    "13/8/2564",
-    "14/8/2564",
-    "15/8/2564",
-    "16/8/2564",
-  ];
   let value = [];
-  label.map((v) => {
+  dayArr.map((v) => {
     console.log(today[v]);
     if (today[v] !== "undefined") {
       value.push(today[v]);
@@ -77,7 +68,7 @@ function App() {
   });
 
   const data = {
-    labels: label,
+    labels: dayArr,
     datasets: [
       {
         label: "ยอดขายรายวัน (ใบ)",
