@@ -13,6 +13,9 @@ for (day = 1; day <= daysOfMonth; day++) {
   dayArr.push(day + "/" + month + "/" + thaiYear);
 }
 console.log("test");
+const boldcss = {
+  fontWeight: 900,
+};
 
 function App() {
   const [notes, getNotes] = useState();
@@ -58,25 +61,43 @@ function App() {
         const resp = response.data;
         getOrderCount(resp);
       });
-    // const interval = setInterval(() => {
-    //   axios
-    //     .get(
-    //       "https://asia-east2-kslproject.cloudfunctions.net/api/v1/serviceStatus/count-lottery"
-    //     )
-    //     .then((response) => {
-    //       const resp = response.data;
-    //       getNotes(resp);
-    //     });
-    //   axios
-    //     .get(
-    //       "https://asia-east2-kslproject.cloudfunctions.net/api/v1/serviceStatus/count-lottery-date"
-    //     )
-    //     .then((response) => {
-    //       const resp = response.data.total;
-    //       getToday(resp);
-    //     });
-    // }, MINUTE_MS);
-    // return () => clearInterval(interval);
+    const interval = setInterval(() => {
+      axios
+        .get(
+          "https://asia-east2-kslproject.cloudfunctions.net/api/v1/serviceStatus/count-lottery"
+        )
+        .then((response) => {
+          const resp = response.data;
+          getNotes(resp);
+        });
+      axios
+        .get(
+          "https://asia-east2-kslproject.cloudfunctions.net/api/v1/serviceStatus/count-lottery-date"
+        )
+        .then((response) => {
+          const resp = response.data;
+          getToday(resp);
+        });
+
+      axios
+        .get(
+          "https://asia-east2-kslproject.cloudfunctions.net/api/v1/serviceStatus/count-order-date"
+        )
+        .then((response) => {
+          const resp = response.data;
+          getOrderDate(resp);
+        });
+
+      axios
+        .get(
+          "https://asia-east2-kslproject.cloudfunctions.net/api/v1/serviceStatus/count-order-count"
+        )
+        .then((response) => {
+          const resp = response.data;
+          getOrderCount(resp);
+        });
+    }, MINUTE_MS);
+    return () => clearInterval(interval);
   }, []);
 
   console.log(today);
@@ -202,7 +223,9 @@ function App() {
                     {notes["(1)ขายแล้ว"]} ใบ<br></br>
                   </span>
                 </h3>
-                <p class="m-0">{orderCount["success"]} order</p>
+                <p class="m-0" style={boldcss}>
+                  {orderCount["success"]} order
+                </p>
                 <p class="m-0">งวดที่ 1 สิงหาคม</p>
               </div>
             </div>
