@@ -7,17 +7,82 @@ let thaiYear = date.getFullYear() + 543;
 let month = date.getMonth() + 1;
 let daysOfMonth = new Date(date.getYear(), date.getMonth(), 0).getDate();
 
+//prepairing date
 let dayArr = [];
 let day = 1;
 for (day = 1; day <= daysOfMonth; day++) {
   dayArr.push(day + "/" + month + "/" + thaiYear);
 }
-console.log("test");
+//css
 const boldcss = {
   fontWeight: 900,
 };
 
+//StatCol component
+function StatCol(data) {
+  return (
+    <Fragment>
+      <div className="col-xl-3 col-sm-6">
+        <div className="card-box widget-box-two widget-two-custom">
+          <div className="media">
+            <div
+              className="
+                        avatar-lg
+                        rounded-circle
+                        bg-primary
+                        widget-two-icon
+                        align-self-center
+                      "
+            >
+              <i
+                className="
+                          mdi mdi-crown
+                          avatar-title
+                          font-30
+                          text-white
+                        "
+              ></i>
+            </div>
+
+            <div className="wigdet-two-content media-body">
+              <p
+                className="
+                          m-0
+                          text-uppercase
+                          font-weight-medium
+                          text-truncate
+                        "
+                title="Statistics"
+              >
+                {data.name}
+              </p>
+              <h3 className="font-weight-medium my-2">
+                <span data-plugin="counterup">
+                  {data.sale} ใบ<br></br>
+                </span>
+              </h3>
+              <p className="m-0" style={boldcss}>
+                {data.saleordercount} order
+              </p>
+              {/* <p class="m-0">งวดที่ 1 สิงหาคม</p> */}
+            </div>
+          </div>
+        </div>
+      </div>
+    </Fragment>
+  );
+}
 function App() {
+  // let fullReportData = {
+  //   totalLottery: 0,
+  //   saleSuccess: 0,
+  //   waitingForApprove: 0,
+  //   totalSale: 0,
+  //   remain: 0,
+  //   saleSuccessOrder: 0,
+  //   waitingForApproveOrder: 0,
+  //   totalSaleOrder: 0,
+  // };
   const [notes, getNotes] = useState();
   const [today, getToday] = useState({});
   const [orderdate, getOrderDate] = useState({});
@@ -139,232 +204,33 @@ function App() {
   if (notes) {
     return (
       <Fragment>
-        <div class="col-xl-3 col-sm-6">
-          <div class="card-box widget-box-two widget-two-custom">
-            <div class="media">
-              <div
-                class="
-                        avatar-lg
-                        rounded-circle
-                        bg-primary
-                        widget-two-icon
-                        align-self-center
-                      "
-              >
-                <i
-                  class="
-                          mdi mdi-crown
-                          avatar-title
-                          font-30
-                          text-white
-                        "
-                ></i>
-              </div>
+        {console.log(notes)}
+        <StatCol
+          sale={notes["(4)ทั้งหมด(1+2+3=4)"]}
+          name="ลอตเตอรี่ทั้งหมด"
+          saleordercount="..."
+        ></StatCol>
+        <StatCol
+          sale={notes["(1)ขายแล้ว"]}
+          name="ขายแล้ว"
+          saleordercount={orderCount["success"]}
+        ></StatCol>
+        <StatCol
+          sale={notes["(2)รอตรวจสอบ"]}
+          name="รอตรวจสอบ"
+          saleordercount={orderCount["confirmed"]}
+        ></StatCol>
+        <StatCol
+          sale={notes["(1)ขายแล้ว"] + notes["(2)รอตรวจสอบ"]}
+          name="ขายรวม"
+          saleordercount={orderCount["confirmed"] + orderCount["success"]}
+        ></StatCol>
+        <StatCol
+          sale={notes["(3)คงเหลือ"]}
+          name="ลอตเตอรี่ทั้งหมด"
+          saleordercount="..."
+        ></StatCol>
 
-              <div class="wigdet-two-content media-body">
-                <p
-                  class="
-                          m-0
-                          text-uppercase
-                          font-weight-medium
-                          text-truncate
-                        "
-                  title="Statistics"
-                >
-                  ลอตเตอรี่ในระบบทั้งหมด
-                </p>
-                <h3 class="font-weight-medium my-2">
-                  <span data-plugin="counterup">
-                    {notes["(4)ทั้งหมด(1+2+3=4)"]} ใบ
-                  </span>
-                </h3>
-                <p class="m-0">...</p>
-                <p class="m-0">งวดที่ 1 สิงหาคม</p>
-              </div>
-            </div>
-          </div>
-        </div>
-        <div class="col-xl-3 col-sm-6">
-          <div class="card-box widget-box-two widget-two-custom">
-            <div class="media">
-              <div
-                class="
-                        avatar-lg
-                        rounded-circle
-                        bg-primary
-                        widget-two-icon
-                        align-self-center
-                      "
-              >
-                <i
-                  class="
-                          mdi mdi-crown
-                          avatar-title
-                          font-30
-                          text-white
-                        "
-                ></i>
-              </div>
-
-              <div class="wigdet-two-content media-body">
-                <p
-                  class="
-                          m-0
-                          text-uppercase
-                          font-weight-medium
-                          text-truncate
-                        "
-                  title="Statistics"
-                >
-                  ขายแล้ว
-                </p>
-                <h3 class="font-weight-medium my-2">
-                  <span data-plugin="counterup">
-                    {notes["(1)ขายแล้ว"]} ใบ<br></br>
-                  </span>
-                </h3>
-                <p class="m-0" style={boldcss}>
-                  {orderCount["success"]} order
-                </p>
-                <p class="m-0">งวดที่ 1 สิงหาคม</p>
-              </div>
-            </div>
-          </div>
-        </div>
-        <div class="col-xl-3 col-sm-6">
-          <div class="card-box widget-box-two widget-two-custom">
-            <div class="media">
-              <div
-                class="
-                        avatar-lg
-                        rounded-circle
-                        bg-primary
-                        widget-two-icon
-                        align-self-center
-                      "
-              >
-                <i
-                  class="
-                          mdi mdi-crown
-                          avatar-title
-                          font-30
-                          text-white
-                        "
-                ></i>
-              </div>
-
-              <div class="wigdet-two-content media-body">
-                <p
-                  class="
-                          m-0
-                          text-uppercase
-                          font-weight-medium
-                          text-truncate
-                        "
-                  title="Statistics"
-                >
-                  รอ Approve
-                </p>
-                <h3 class="font-weight-medium my-2">
-                  <span data-plugin="counterup">
-                    {notes["(2)รอตรวจสอบ"]} ใบ
-                  </span>
-                </h3>
-                <p class="m-0">{orderCount["confirmed"]} order</p>
-                <p class="m-0">งวดที่ 1 สิงหาคม</p>
-              </div>
-            </div>
-          </div>
-        </div>
-        <div class="col-xl-3 col-sm-6">
-          <div class="card-box widget-box-two widget-two-custom">
-            <div class="media">
-              <div
-                class="
-                        avatar-lg
-                        rounded-circle
-                        bg-primary
-                        widget-two-icon
-                        align-self-center
-                      "
-              >
-                <i
-                  class="
-                          mdi mdi-crown
-                          avatar-title
-                          font-30
-                          text-white
-                        "
-                ></i>
-              </div>
-
-              <div class="wigdet-two-content media-body">
-                <p
-                  class="
-                          m-0
-                          text-uppercase
-                          font-weight-medium
-                          text-truncate
-                        "
-                  title="Statistics"
-                >
-                  ขายรวม
-                </p>
-                <h3 class="font-weight-medium my-2">
-                  <span data-plugin="counterup">
-                    {notes["(1)ขายแล้ว"] + notes["(2)รอตรวจสอบ"]} ใบ
-                  </span>
-                </h3>
-                <p class="m-0">
-                  {orderCount["success"] + orderCount["confirmed"]} order
-                </p>
-                <p class="m-0">งวดที่ 1 สิงหาคม</p>
-              </div>
-            </div>
-          </div>
-        </div>
-        <div class="col-xl-3 col-sm-6">
-          <div class="card-box widget-box-two widget-two-custom">
-            <div class="media">
-              <div
-                class="
-                        avatar-lg
-                        rounded-circle
-                        bg-primary
-                        widget-two-icon
-                        align-self-center
-                      "
-              >
-                <i
-                  class="
-                          mdi mdi-crown
-                          avatar-title
-                          font-30
-                          text-white
-                        "
-                ></i>
-              </div>
-
-              <div class="wigdet-two-content media-body">
-                <p
-                  class="
-                          m-0
-                          text-uppercase
-                          font-weight-medium
-                          text-truncate
-                        "
-                  title="Statistics"
-                >
-                  คงเหลือ
-                </p>
-                <h3 class="font-weight-medium my-2">
-                  <span data-plugin="counterup">{notes["(3)คงเหลือ"]} ใบ</span>
-                </h3>
-                <p class="m-0">งวดที่ 1 สิงหาคม</p>
-              </div>
-            </div>
-          </div>
-        </div>
         <div class="col-xl-12">
           <div class="card-box widget-box-two widget-two-custom">
             <Line data={data} />
