@@ -86,11 +86,25 @@ function App() {
   const [notes, getNotes] = useState();
   const [today, getToday] = useState({});
   const [orderdate, getOrderDate] = useState({});
+  const [orderHour, getOrderHour] = useState({});
   const [orderCount, getOrderCount] = useState({
     success: "waiting",
     confirmed: "waiting",
   });
   const MINUTE_MS = 600000;
+  const [datedataClicked, setDateDataClicked] = useState("");
+  const [minuteClicked, getMinuteClicked] = useState("");
+  const [keepDate, setKeepDate] = useState("");
+  const [index1, setIndex] = useState("");
+  const [clicktable, setClickTable] = useState(true);
+  const [checkDate, setCheckDate] = useState(0);
+
+  let minArr = [];
+  let min = 1;
+  for (min = 1; min <= 60; min++) {
+    minArr.push(min);
+  }
+
   useEffect(() => {
     axios
       .get(
@@ -126,6 +140,15 @@ function App() {
         const resp = response.data;
         getOrderCount(resp);
       });
+    axios
+      .get(
+        "https://asia-east2-kslproject.cloudfunctions.net/api/v1/serviceStatus/count-order-hour"
+      )
+      .then((response) => {
+        const resp = response.data;
+        getOrderHour(resp);
+      });
+
     const interval = setInterval(() => {
       axios
         .get(
@@ -161,15 +184,33 @@ function App() {
           const resp = response.data;
           getOrderCount(resp);
         });
+
+      axios
+        .get(
+          "https://asia-east2-kslproject.cloudfunctions.net/api/v1/serviceStatus/count-order-hour"
+        )
+        .then((response) => {
+          const resp = response.data;
+          getOrderHour(resp);
+        });
     }, MINUTE_MS);
     return () => clearInterval(interval);
   }, []);
 
-  console.log(today);
+  const day = Object.keys(today);
+  // console.log("day3day", day);
+  var sortedStrings = day.sort(function (a, b) {
+    var aComps = a.split("/");
+    var bComps = b.split("/");
+    var aDate = new Date(aComps[2], aComps[1], aComps[0]);
+    var bDate = new Date(bComps[2], bComps[1], bComps[0]);
+    return aDate.getTime() - bDate.getTime();
+  });
+  // console.log("sst", sortedStrings);
 
   let value = [];
   let transection = [];
-  dayArr.map((v) => {
+  day.map((v) => {
     if (today[v] !== "undefined") {
       value.push(today[v]);
     } else {
@@ -181,9 +222,95 @@ function App() {
       transection.push(0);
     }
   });
+  //console.log("value", value);
+
+  const lineOptions = {
+    onClick: (e, element) => {
+      setClickTable(true);
+      console.log("e", e);
+      console.log("element", element);
+      if (element.length === 0) {
+        // console.log("no data");
+        return null;
+      }
+
+      if (element.length !== 0) {
+        if (element[0].datasetIndex === 1) {
+          // console.log("green");
+          return null;
+        }
+
+        (async () => {
+          const index = element[0]["index"];
+          //console.log("index date", index);
+          const date = e.chart.data.labels[index];
+          console.log("date", date);
+          console.log("keep date", keepDate);
+          console.log("compare", date.localeCompare(keepDate));
+          if (date.localeCompare(keepDate) === 0 || keepDate === "") {
+            console.log(minuteClicked);
+            console.log("same value .... 1");
+            setCheckDate(1);
+          } else {
+            {
+              console.log("new value ..... 2");
+              setCheckDate(2);
+            }
+          }
+          console.log("index", index);
+          //   setMinute("");
+          setDateDataClicked(date);
+          setKeepDate(date);
+          console.log("keepdate", keepDate);
+        })();
+      }
+    },
+  };
+
+  const lineOptions2 = {
+    onClick: (e, element) => {
+      setClickTable(false);
+      if (element.length === 0) {
+        // console.log("no data");
+        return null;
+      }
+
+      if (element.length !== 0) {
+        (async () => {
+          const index = element[0]["index"];
+          //  console.log("index date hour", index);
+          const date1 = e.chart.data.labels[index];
+          console.log("date hour kaa", date1);
+          getMinuteClicked(index);
+        })();
+      }
+    },
+  };
+
+  let test = datedataClicked;
+  const dataSum = {};
+  Object.entries(orderHour).forEach(([key, val]) => {
+    if (key.slice(0, -6).localeCompare(test) === 0) {
+      dataSum[key] = val.split(",");
+    }
+  });
+
+  const sortedSum = Object.keys(dataSum)
+    .sort()
+    .reduce((last, curre) => {
+      last[curre] = dataSum[curre];
+      return last;
+    }, {});
+
+  const dataMin2 = Object.keys(sortedSum);
+  const timeHour = dataMin2.map((s) => s.slice(10));
+  const dataMin3 = Object.values(sortedSum);
+  const sum = dataMin3.map((p) =>
+    p.reduce((prev, curr) => prev + parseInt(curr), 0)
+  );
 
   const data = {
-    labels: dayArr,
+    labels: day,
     datasets: [
       {
         label: "ยอดขายรายวัน (ใบ)",
@@ -201,10 +328,44 @@ function App() {
       },
     ],
   };
+
+  const data2 = {
+    labels: timeHour,
+    datasets: [
+      {
+        label: "ยอดขายรายชั่วโมง (ใบ)",
+        data: sum,
+        fill: false,
+        backgroundColor: "rgb(255, 99, 132)",
+        borderColor: "rgba(255, 99, 132, 0.2)",
+      },
+    ],
+  };
+  //new date => new hour => new min
+  const data3 = {
+    labels: minArr,
+    datasets: [
+      {
+        label: "ยอดขายรายนาที (ใบ)",
+        data: dataMin3[minuteClicked], //new true , scae false
+        // data:
+        //   checkDate === 0
+        //     ? dataMin3[minuteClicked]
+        //     : checkDate === 1
+        //     ? dataMin3[minuteClicked]
+        //     : dataMin3[-1],
+        fill: false,
+        backgroundColor: "rgb(255, 99, 132)",
+        borderColor: "rgba(255, 99, 132, 0.2)",
+      },
+    ],
+  };
+  console.log(data3);
+
   if (notes) {
     return (
       <Fragment>
-        {console.log(notes)}
+        {/* {console.log(notes)} */}
         <StatCol
           sale={notes["(4)ทั้งหมด(1+2+3=4)"]}
           name="ลอตเตอรี่ทั้งหมด"
@@ -233,14 +394,27 @@ function App() {
 
         <div class="col-xl-12">
           <div class="card-box widget-box-two widget-two-custom">
-            <Line data={data} />
-            {console.log(today)}
+            <Line data={data} options={lineOptions} />
+            {/* table1 */}
+            {/* {datedataClicked !== "" ? (
+              <Line data={data2} options={lineOptions2} />
+            ) : (
+              <div></div>
+            )} */}
+            {/* {datedataClicked !== "" ? <Line data={data3} /> : <div></div>} */}
+            {datedataClicked !== "" && (
+              <Line data={data2} options={lineOptions2} />
+            )}
+
+            {datedataClicked !== "" && clicktable === false && (
+              <Line data={data3} />
+            )}
           </div>
         </div>
       </Fragment>
     );
   } else {
-    return <div>waiting</div>;
+    return <div>waiting for a moment</div>;
   }
 }
 export default App;
