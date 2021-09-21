@@ -1,6 +1,11 @@
 import "./App.css";
 import { useEffect, useState, Fragment } from "react";
 import { Line } from "react-chartjs-2";
+import ChartDataLabels from "chartjs-plugin-datalabels";
+import "chartjs-plugin-datalabels";
+import { Chart } from "chart.js";
+Chart.register(ChartDataLabels);
+
 const axios = require("axios");
 let date = new Date();
 let thaiYear = date.getFullYear() + 543;
@@ -241,6 +246,24 @@ function App() {
         })();
       }
     },
+    plugins: {
+      datalabels: {
+        display: true,
+        color: "black",
+        align: "end",
+        font: {
+          size: 12,
+        },
+      },
+      title: {
+        display: true,
+        padding: {
+          bottom: 3,
+        },
+        weight: "bold",
+        align: "start",
+      },
+    },
   };
 
   const lineOptions2 = {
@@ -258,6 +281,25 @@ function App() {
           getMinuteClicked(index);
         })();
       }
+    },
+
+    plugins: {
+      datalabels: {
+        display: true,
+        color: "black",
+        align: "end",
+        font: {
+          size: 10,
+        },
+      },
+      title: {
+        display: true,
+        padding: {
+          bottom: 3,
+        },
+        weight: "bold",
+        align: "start",
+      },
     },
   };
 
@@ -328,7 +370,26 @@ function App() {
       },
     ],
   };
-  console.log(data3);
+  const showData = {
+    plugins: {
+      datalabels: {
+        display: true,
+        color: "black",
+        align: "end",
+        font: {
+          size: 9,
+        },
+      },
+      title: {
+        display: true,
+        padding: {
+          bottom: 3,
+        },
+        weight: "bold",
+        align: "start",
+      },
+    },
+  };
 
   if (notes) {
     return (
@@ -362,7 +423,11 @@ function App() {
 
         <div class="col-xl-12">
           <div class="card-box widget-box-two widget-two-custom">
-            <Line data={data} options={lineOptions} />
+            <Line
+              data={data}
+              options={lineOptions}
+              plugins={[ChartDataLabels]}
+            />
             {dateClicked !== "" && (
               <Line
                 data={data2}
@@ -371,7 +436,11 @@ function App() {
               />
             )}
             {dateClicked !== "" && clicktable === false && (
-              <Line data={data3} style={{ marginTop: "20px" }} />
+              <Line
+                data={data3}
+                options={showData}
+                style={{ marginTop: "20px" }}
+              />
             )}
           </div>
         </div>
