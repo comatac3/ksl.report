@@ -364,9 +364,15 @@ function App() {
         <div class="col-xl-12">
           <div class="card-box widget-box-two widget-two-custom">
             <Line data={data} options={lineOptions} />
-            {dateClicked !== "" && <Line data={data2} options={lineOptions2} />}
+            {dateClicked !== "" && (
+              <Line
+                data={data2}
+                options={lineOptions2}
+                style={{ marginTop: "20px" }}
+              />
+            )}
             {dateClicked !== "" && clicktable === false && (
-              <Line data={data3} />
+              <Line data={data3} style={{ marginTop: "20px" }} />
             )}
           </div>
         </div>
