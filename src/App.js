@@ -235,7 +235,7 @@ function App() {
       }
 
       if (element.length !== 0) {
-        if (element[0].datasetIndex === 1) {
+        if (element[0].datasetIndex === 0) {
           return null;
         }
 
@@ -332,15 +332,15 @@ function App() {
         label: "ยอดขายรายวัน (ใบ)",
         data: value,
         fill: false,
-        backgroundColor: "rgb(255, 99, 132)",
-        borderColor: "rgba(255, 99, 132, 0.2)",
+        backgroundColor: "rgb(100, 197, 177)",
+        borderColor: "rgba(100, 197, 177, 0.2)",
       },
       {
         label: "จำนวน transection",
         data: transection,
         fill: false,
-        backgroundColor: "rgb(100, 197, 177)",
-        borderColor: "rgba(100, 197, 177, 0.2)",
+        backgroundColor: "rgb(255, 99, 132)",
+        borderColor: "rgba(255, 99, 132, 0.2)",
       },
     ],
   };
@@ -349,7 +349,7 @@ function App() {
     labels: timeHour,
     datasets: [
       {
-        label: "ยอดขายรายชั่วโมง วันที่ " + dateClicked + " (ใบ)",
+        label: "จำนวน transection วันที่ " + dateClicked,
         data: sum,
         fill: false,
         backgroundColor: "rgb(255, 99, 132)",
@@ -362,7 +362,7 @@ function App() {
     labels: minArr,
     datasets: [
       {
-        label: "ยอดขายรายนาที เวลา " + hourClicked + " น. (ใบ)",
+        label: "จำนวน transection เวลา " + hourClicked + " น.",
         data: dataMinute[minuteClicked],
         fill: false,
         backgroundColor: "rgb(255, 99, 132)",
