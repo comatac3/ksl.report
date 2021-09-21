@@ -8,11 +8,11 @@ let month = date.getMonth() + 1;
 let daysOfMonth = new Date(date.getYear(), date.getMonth(), 0).getDate();
 
 //prepairing date
-let dayArr = [];
-let day = 1;
-for (day = 1; day <= daysOfMonth; day++) {
-  dayArr.push(day + "/" + month + "/" + thaiYear);
-}
+// let dayArr = [];
+// let day = 1;
+// for (day = 1; day <= daysOfMonth; day++) {
+//   dayArr.push(day + "/" + month + "/" + thaiYear);
+// }
 //css
 const boldcss = {
   fontWeight: 900,
@@ -92,12 +92,10 @@ function App() {
     confirmed: "waiting",
   });
   const MINUTE_MS = 600000;
-  const [datedataClicked, setDateDataClicked] = useState("");
+  const [dateClicked, getDateClicked] = useState("");
   const [minuteClicked, getMinuteClicked] = useState("");
-  const [keepDate, setKeepDate] = useState("");
-  const [index1, setIndex] = useState("");
-  const [clicktable, setClickTable] = useState(true);
-  const [checkDate, setCheckDate] = useState(0);
+  const [hourClicked, getHourClicked] = useState("");
+  const [clicktable, getClickTable] = useState(true);
 
   let minArr = [];
   let min = 1;
@@ -222,46 +220,25 @@ function App() {
       transection.push(0);
     }
   });
-  //console.log("value", value);
 
   const lineOptions = {
     onClick: (e, element) => {
-      setClickTable(true);
+      getClickTable(true);
       console.log("e", e);
       console.log("element", element);
       if (element.length === 0) {
-        // console.log("no data");
         return null;
       }
 
       if (element.length !== 0) {
         if (element[0].datasetIndex === 1) {
-          // console.log("green");
           return null;
         }
 
         (async () => {
           const index = element[0]["index"];
-          //console.log("index date", index);
           const date = e.chart.data.labels[index];
-          console.log("date", date);
-          console.log("keep date", keepDate);
-          console.log("compare", date.localeCompare(keepDate));
-          if (date.localeCompare(keepDate) === 0 || keepDate === "") {
-            console.log(minuteClicked);
-            console.log("same value .... 1");
-            setCheckDate(1);
-          } else {
-            {
-              console.log("new value ..... 2");
-              setCheckDate(2);
-            }
-          }
-          console.log("index", index);
-          //   setMinute("");
-          setDateDataClicked(date);
-          setKeepDate(date);
-          console.log("keepdate", keepDate);
+          getDateClicked(date);
         })();
       }
     },
@@ -269,25 +246,23 @@ function App() {
 
   const lineOptions2 = {
     onClick: (e, element) => {
-      setClickTable(false);
+      getClickTable(false);
       if (element.length === 0) {
-        // console.log("no data");
         return null;
       }
 
       if (element.length !== 0) {
         (async () => {
           const index = element[0]["index"];
-          //  console.log("index date hour", index);
-          const date1 = e.chart.data.labels[index];
-          console.log("date hour kaa", date1);
+          const hour = e.chart.data.labels[index];
+          getHourClicked(hour);
           getMinuteClicked(index);
         })();
       }
     },
   };
 
-  let test = datedataClicked;
+  let test = dateClicked;
   const dataSum = {};
   Object.entries(orderHour).forEach(([key, val]) => {
     if (key.slice(0, -6).localeCompare(test) === 0) {
@@ -302,10 +277,10 @@ function App() {
       return last;
     }, {});
 
-  const dataMin2 = Object.keys(sortedSum);
-  const timeHour = dataMin2.map((s) => s.slice(10));
-  const dataMin3 = Object.values(sortedSum);
-  const sum = dataMin3.map((p) =>
+  const dataDateTime = Object.keys(sortedSum);
+  const timeHour = dataDateTime.map((s) => s.slice(10));
+  const dataMinute = Object.values(sortedSum);
+  const sum = dataMinute.map((p) =>
     p.reduce((prev, curr) => prev + parseInt(curr), 0)
   );
 
@@ -333,7 +308,7 @@ function App() {
     labels: timeHour,
     datasets: [
       {
-        label: "ยอดขายรายชั่วโมง (ใบ)",
+        label: "ยอดขายรายชั่วโมง วันที่ " + dateClicked + " (ใบ)",
         data: sum,
         fill: false,
         backgroundColor: "rgb(255, 99, 132)",
@@ -341,19 +316,13 @@ function App() {
       },
     ],
   };
-  //new date => new hour => new min
+
   const data3 = {
     labels: minArr,
     datasets: [
       {
-        label: "ยอดขายรายนาที (ใบ)",
-        data: dataMin3[minuteClicked], //new true , scae false
-        // data:
-        //   checkDate === 0
-        //     ? dataMin3[minuteClicked]
-        //     : checkDate === 1
-        //     ? dataMin3[minuteClicked]
-        //     : dataMin3[-1],
+        label: "ยอดขายรายนาที เวลา " + hourClicked + " น. (ใบ)",
+        data: dataMinute[minuteClicked],
         fill: false,
         backgroundColor: "rgb(255, 99, 132)",
         borderColor: "rgba(255, 99, 132, 0.2)",
@@ -395,18 +364,8 @@ function App() {
         <div class="col-xl-12">
           <div class="card-box widget-box-two widget-two-custom">
             <Line data={data} options={lineOptions} />
-            {/* table1 */}
-            {/* {datedataClicked !== "" ? (
-              <Line data={data2} options={lineOptions2} />
-            ) : (
-              <div></div>
-            )} */}
-            {/* {datedataClicked !== "" ? <Line data={data3} /> : <div></div>} */}
-            {datedataClicked !== "" && (
-              <Line data={data2} options={lineOptions2} />
-            )}
-
-            {datedataClicked !== "" && clicktable === false && (
+            {dateClicked !== "" && <Line data={data2} options={lineOptions2} />}
+            {dateClicked !== "" && clicktable === false && (
               <Line data={data3} />
             )}
           </div>
