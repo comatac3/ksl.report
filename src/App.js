@@ -373,7 +373,7 @@ function App() {
       </Fragment>
     );
   } else {
-    return <div>waiting for a moment</div>;
+    return <div>waiting</div>;
   }
 }
 export default App;
