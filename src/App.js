@@ -196,15 +196,14 @@ function App() {
   }, []);
 
   const day = Object.keys(today);
-  // console.log("day3day", day);
-  var sortedStrings = day.sort(function (a, b) {
+
+  var sortedDay = day.sort(function (a, b) {
     var aComps = a.split("/");
     var bComps = b.split("/");
     var aDate = new Date(aComps[2], aComps[1], aComps[0]);
     var bDate = new Date(bComps[2], bComps[1], bComps[0]);
     return aDate.getTime() - bDate.getTime();
   });
-  // console.log("sst", sortedStrings);
 
   let value = [];
   let transection = [];
