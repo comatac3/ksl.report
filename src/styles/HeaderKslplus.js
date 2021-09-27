@@ -1,7 +1,7 @@
 import React from "react";
 import { Link } from "react-router-dom";
 
-function Header() {
+function HeaderKslplus() {
   return (
     <div>
       {/* <link href="assets/libs/c3/c3.min.css" rel="stylesheet" type="text/css" />
@@ -299,19 +299,11 @@ function Header() {
 
           <div class="logo-box">
             <a href="/DashboardKsl" class="logo text-center">
-              <span class="logo-lg">
-                <img
-                  src="https://xn--12car4jyaq2b.com/img/logo.svg"
-                  alt=""
-                  height="25"
-                />
+              <span class="logo-lg" style={{ background: "#fff" }}>
+                <img src="logoksl+.png" alt="" height="25" />
               </span>
               <span class="logo-sm">
-                <img
-                  src="https://xn--12car4jyaq2b.com/img/logo.svg"
-                  alt=""
-                  height="28"
-                />
+                <img src="logoksl+.png" alt="" height="28" />
               </span>
             </a>
           </div>
@@ -391,7 +383,7 @@ function Header() {
                         <li class="breadcrumb-item active">Dashboard 1</li>
                       </ol>
                     </div>
-                    <h4 class="page-title">Kongsalak</h4>
+                    <h4 class="page-title">KongsalakPlus</h4>
                   </div>
                 </div>
               </div>
@@ -506,10 +498,10 @@ function Header() {
             </a>
           </div>
         </div>
-      </div> 
-      <div class="rightbar-overlay"></div>*/}
+      </div>
+      <div class="rightbar-overlay"></div> */}
     </div>
   );
 }
 
-export default Header;
+export default HeaderKslplus;

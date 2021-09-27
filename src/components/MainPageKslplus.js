@@ -3,7 +3,7 @@ import { Line } from "react-chartjs-2";
 import ChartDataLabels from "chartjs-plugin-datalabels";
 import "chartjs-plugin-datalabels";
 import { Chart } from "chart.js";
-import Header from "../styles/Header";
+import HeaderKslplus from "../styles/HeaderKslplus";
 Chart.register(ChartDataLabels);
 
 const axios = require("axios");
@@ -77,7 +77,7 @@ function StatCol(data) {
     </Fragment>
   );
 }
-function MainPage() {
+function MainPageKslplus() {
   // let fullReportData = {
   //   totalLottery: 0,
   //   saleSuccess: 0,
@@ -112,7 +112,7 @@ function MainPage() {
   useEffect(() => {
     axios
       .get(
-        "https://asia-east2-kslproject.cloudfunctions.net/api/v1/serviceStatus/count-lottery"
+        "https://asia-east2-kslplus.cloudfunctions.net/api/v1/serviceStatus/count-lottery"
       )
       .then((response) => {
         const resp = response.data;
@@ -120,7 +120,7 @@ function MainPage() {
       });
     axios
       .get(
-        "https://asia-east2-kslproject.cloudfunctions.net/api/v1/serviceStatus/count-lottery-date"
+        "https://asia-east2-kslplus.cloudfunctions.net/api/v1/serviceStatus/count-lottery-date"
       )
       .then((response) => {
         const resp = response.data;
@@ -129,7 +129,7 @@ function MainPage() {
 
     axios
       .get(
-        "https://asia-east2-kslproject.cloudfunctions.net/api/v1/serviceStatus/count-order-date"
+        "https://asia-east2-kslplus.cloudfunctions.net/api/v1/serviceStatus/count-order-date"
       )
       .then((response) => {
         const resp = response.data;
@@ -138,7 +138,7 @@ function MainPage() {
 
     axios
       .get(
-        "https://asia-east2-kslproject.cloudfunctions.net/api/v1/serviceStatus/count-order-count"
+        "https://asia-east2-kslplus.cloudfunctions.net/api/v1/serviceStatus/count-order-count"
       )
       .then((response) => {
         const resp = response.data;
@@ -146,7 +146,7 @@ function MainPage() {
       });
     axios
       .get(
-        "https://asia-east2-kslproject.cloudfunctions.net/api/v1/serviceStatus/count-order-hour"
+        "https://asia-east2-kslplus.cloudfunctions.net/api/v1/serviceStatus/count-order-hour"
       )
       .then((response) => {
         const resp = response.data;
@@ -156,7 +156,7 @@ function MainPage() {
     const interval = setInterval(() => {
       axios
         .get(
-          "https://asia-east2-kslproject.cloudfunctions.net/api/v1/serviceStatus/count-lottery"
+          "https://asia-east2-kslplus.cloudfunctions.net/api/v1/serviceStatus/count-lottery"
         )
         .then((response) => {
           const resp = response.data;
@@ -164,7 +164,7 @@ function MainPage() {
         });
       axios
         .get(
-          "https://asia-east2-kslproject.cloudfunctions.net/api/v1/serviceStatus/count-lottery-date"
+          "https://asia-east2-kslplus.cloudfunctions.net/api/v1/serviceStatus/count-lottery-date"
         )
         .then((response) => {
           const resp = response.data;
@@ -173,7 +173,7 @@ function MainPage() {
 
       axios
         .get(
-          "https://asia-east2-kslproject.cloudfunctions.net/api/v1/serviceStatus/count-order-date"
+          "https://asia-east2-kslplus.cloudfunctions.net/api/v1/serviceStatus/count-order-date"
         )
         .then((response) => {
           const resp = response.data;
@@ -182,7 +182,7 @@ function MainPage() {
 
       axios
         .get(
-          "https://asia-east2-kslproject.cloudfunctions.net/api/v1/serviceStatus/count-order-count"
+          "https://asia-east2-kslplus.cloudfunctions.net/api/v1/serviceStatus/count-order-count"
         )
         .then((response) => {
           const resp = response.data;
@@ -191,7 +191,7 @@ function MainPage() {
 
       axios
         .get(
-          "https://asia-east2-kslproject.cloudfunctions.net/api/v1/serviceStatus/count-order-hour"
+          "https://asia-east2-kslplus.cloudfunctions.net/api/v1/serviceStatus/count-order-hour"
         )
         .then((response) => {
           const resp = response.data;
@@ -408,10 +408,10 @@ function MainPage() {
     },
   };
 
-  if (notes && pathname === "/DashboardKsl") {
+  if (notes && pathname === "/DashboardKslplus") {
     return (
       <Fragment>
-        <Header />
+        <HeaderKslplus />
         <StatCol
           sale={notes["(4)ทั้งหมด(1+2+3=4)"]}
           name="ลอตเตอรี่ทั้งหมด"
@@ -467,4 +467,4 @@ function MainPage() {
     return <div>waiting</div>;
   }
 }
-export default MainPage;
+export default MainPageKslplus;
