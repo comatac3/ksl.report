@@ -408,10 +408,10 @@ function MainPage() {
     },
   };
 
-  if (notes && pathname === "/DashboardKsl") {
+  if (notes) {
     return (
       <Fragment>
-        <Header />
+        {/* <Header /> */}
         <StatCol
           sale={notes["(4)ทั้งหมด(1+2+3=4)"]}
           name="ลอตเตอรี่ทั้งหมด"

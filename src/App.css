@@ -40,13 +40,13 @@
 .enlarged .logo span.logo-sm {
   display: none;
 }
-.content-page {
+/* .content-page {
   min-height: 0;
-}
+} */
 /* .card-box {
   margin-left: 240px;
 } */
-@media (min-width: 768px){
+/* @media (min-width: 768px){
   .col-sm-6, .col-xl-12 {
     margin-left: 70px;
     width: auto;
@@ -57,4 +57,4 @@
     margin-left: 240px;
     width: auto;
   }
-}
+} */

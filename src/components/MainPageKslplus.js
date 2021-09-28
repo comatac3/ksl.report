@@ -411,7 +411,6 @@ function MainPageKslplus() {
   if (notes && pathname === "/DashboardKslplus") {
     return (
       <Fragment>
-        <HeaderKslplus />
         <StatCol
           sale={notes["(4)ทั้งหมด(1+2+3=4)"]}
           name="ลอตเตอรี่ทั้งหมด"
