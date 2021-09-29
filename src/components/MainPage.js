@@ -26,7 +26,7 @@ const boldcss = {
 //StatCol component
 function StatCol(data) {
   return (
-    <Fragment>
+    <Fragment class="row">
       <div className="col-xl-3 col-sm-6">
         <div className="card-box widget-box-two widget-two-custom">
           <div className="media">

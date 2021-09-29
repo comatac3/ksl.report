@@ -5,32 +5,18 @@ import MainPage from "../components/MainPage";
 function Header() {
   return (
     <>
-      {/* <link href="assets/libs/c3/c3.min.css" rel="stylesheet" type="text/css" />
-      <link
-        href="assets/css/bootstrap.min.css"
-        rel="stylesheet"
-        type="text/css"
-        id="bootstrap-stylesheet"
-      />
-      <link href="assets/css/icons.min.css" rel="stylesheet" type="text/css" />
-      <link
-        href="assets/css/app.min.css"
-        rel="stylesheet"
-        type="text/css"
-        id="app-stylesheet"
-      /> */}
-
       <div id="wrapper">
-        <div class="navbar-custom">
+        {/* <!-- Topbar Start --> */}
+        <div class="navbar-custom headbar">
           <ul class="list-unstyled topnav-menu float-right mb-0">
             <li
               class="
-                  dropdown
-                  notification-list
-                  dropdown
-                  d-none d-lg-inline-block
-                  ml-2
-                "
+              dropdown
+              notification-list
+              dropdown
+              d-none d-lg-inline-block
+              ml-2
+            "
             >
               <a
                 class="nav-link dropdown-toggle mr-0 waves-effect waves-light"
@@ -47,6 +33,7 @@ function Header() {
                 />
               </a>
               <div class="dropdown-menu dropdown-menu-right profile-dropdown">
+                {/* <!-- item--> */}
                 <a href="javascript:void(0);" class="dropdown-item notify-item">
                   <img
                     src="assets/images/flags/germany.jpg"
@@ -57,6 +44,7 @@ function Header() {
                   <span class="align-middle">German</span>
                 </a>
 
+                {/* <!-- item--> */}
                 <a href="javascript:void(0);" class="dropdown-item notify-item">
                   <img
                     src="assets/images/flags/italy.jpg"
@@ -67,6 +55,7 @@ function Header() {
                   <span class="align-middle">Italian</span>
                 </a>
 
+                {/* <!-- item--> */}
                 <a href="javascript:void(0);" class="dropdown-item notify-item">
                   <img
                     src="assets/images/flags/spain.jpg"
@@ -77,6 +66,7 @@ function Header() {
                   <span class="align-middle">Spanish</span>
                 </a>
 
+                {/* <!-- item--> */}
                 <a href="javascript:void(0);" class="dropdown-item notify-item">
                   <img
                     src="assets/images/flags/russia.jpg"
@@ -127,6 +117,7 @@ function Header() {
                     </p>
                   </a>
 
+                  {/* <!-- item--> */}
                   <a
                     href="javascript:void(0);"
                     class="dropdown-item notify-item"
@@ -142,6 +133,7 @@ function Header() {
                     </p>
                   </a>
 
+                  {/* <!-- item--> */}
                   <a
                     href="javascript:void(0);"
                     class="dropdown-item notify-item"
@@ -157,6 +149,7 @@ function Header() {
                     </p>
                   </a>
 
+                  {/* <!-- item--> */}
                   <a
                     href="javascript:void(0);"
                     class="dropdown-item notify-item"
@@ -176,6 +169,7 @@ function Header() {
                     </p>
                   </a>
 
+                  {/* <!-- item--> */}
                   <a
                     href="javascript:void(0);"
                     class="dropdown-item notify-item"
@@ -191,6 +185,7 @@ function Header() {
                     </p>
                   </a>
 
+                  {/* <!-- item--> */}
                   <a
                     href="javascript:void(0);"
                     class="dropdown-item notify-item"
@@ -204,6 +199,7 @@ function Header() {
                     </p>
                   </a>
 
+                  {/* <!-- item--> */}
                   <a
                     href="javascript:void(0);"
                     class="dropdown-item notify-item"
@@ -219,13 +215,14 @@ function Header() {
                   </a>
                 </div>
 
+                {/* <!-- All--> */}
                 <a
                   href="javascript:void(0);"
                   class="
-                      dropdown-item
-                      text-center text-primary
-                      notify-item notify-all
-                    "
+                  dropdown-item
+                  text-center text-primary
+                  notify-item notify-all
+                "
                 >
                   View all
                   <i class="fi-arrow-right"></i>
@@ -236,12 +233,12 @@ function Header() {
             <li class="dropdown notification-list">
               <a
                 class="
-                    nav-link
-                    dropdown-toggle
-                    nav-user
-                    mr-0
-                    waves-effect waves-light
-                  "
+                nav-link
+                dropdown-toggle
+                nav-user
+                mr-0
+                waves-effect waves-light
+              "
                 data-toggle="dropdown"
                 href="#"
                 role="button"
@@ -258,20 +255,24 @@ function Header() {
                 </span>
               </a>
               <div class="dropdown-menu dropdown-menu-right profile-dropdown">
+                {/* <!-- item--> */}
                 <div class="dropdown-header noti-title">
                   <h6 class="text-overflow m-0">Welcome !</h6>
                 </div>
 
+                {/* <!-- item--> */}
                 <a href="javascript:void(0);" class="dropdown-item notify-item">
                   <i class="fe-user"></i>
                   <span>Profile</span>
                 </a>
 
+                {/* <!-- item--> */}
                 <a href="javascript:void(0);" class="dropdown-item notify-item">
                   <i class="fe-settings"></i>
                   <span>Settings</span>
                 </a>
 
+                {/* <!-- item--> */}
                 <a href="javascript:void(0);" class="dropdown-item notify-item">
                   <i class="fe-lock"></i>
                   <span>Lock Screen</span>
@@ -279,11 +280,10 @@ function Header() {
 
                 <div class="dropdown-divider"></div>
 
-                <a href="javascript:void(0);" class="dropdown-item notify-item">
+                {/* <!-- item--> */}
+                <a href="/" class="dropdown-item notify-item">
                   <i class="fe-log-out"></i>
-                  <span>
-                    <Link to="/">Logout</Link>
-                  </span>
+                  <span>Logout</span>
                 </a>
               </div>
             </li>
@@ -295,123 +295,10 @@ function Header() {
               >
                 <i class="fe-settings noti-icon"></i>
               </a>
-
-              <div class="right-bar">
-                <div class="rightbar-title">
-                  <a
-                    href="javascript:void(0);"
-                    class="right-bar-toggle float-right"
-                  >
-                    <i class="mdi mdi-close"></i>
-                  </a>
-                  <h4 class="font-16 m-0 text-white">Theme Customizer</h4>
-                </div>
-                <div class="slimscroll-menu">
-                  <div class="p-3">
-                    <div class="alert alert-warning" role="alert">
-                      <strong>Customize </strong> the overall color scheme,
-                      layout, etc.
-                    </div>
-                    <div class="mb-2">
-                      <img
-                        src="assets/images/layouts/light.png"
-                        class="img-fluid img-thumbnail"
-                        alt=""
-                      />
-                    </div>
-                    <div class="custom-control custom-switch mb-3">
-                      <input
-                        type="checkbox"
-                        class="custom-control-input theme-choice"
-                        id="light-mode-switch"
-                        // checked
-                      />
-                      <label
-                        class="custom-control-label"
-                        for="light-mode-switch"
-                      >
-                        Light Mode
-                      </label>
-                    </div>
-
-                    <div class="mb-2">
-                      <img
-                        src="assets/images/layouts/dark.png"
-                        class="img-fluid img-thumbnail"
-                        alt=""
-                      />
-                    </div>
-                    <div class="custom-control custom-switch mb-3">
-                      <input
-                        type="checkbox"
-                        class="custom-control-input theme-choice"
-                        id="dark-mode-switch"
-                        data-bsStyle="assets/css/bootstrap-dark.min.css"
-                        data-appStyle="assets/css/app-dark.min.css"
-                      />
-                      <label
-                        class="custom-control-label"
-                        for="dark-mode-switch"
-                      >
-                        Dark Mode
-                      </label>
-                    </div>
-
-                    <div class="mb-2">
-                      <img
-                        src="assets/images/layouts/rtl.png"
-                        class="img-fluid img-thumbnail"
-                        alt=""
-                      />
-                    </div>
-                    <div class="custom-control custom-switch mb-3">
-                      <input
-                        type="checkbox"
-                        class="custom-control-input theme-choice"
-                        id="rtl-mode-switch"
-                        data-appStyle="assets/css/app-rtl.min.css"
-                      />
-                      <label class="custom-control-label" for="rtl-mode-switch">
-                        RTL Mode
-                      </label>
-                    </div>
-
-                    <div class="mb-2">
-                      <img
-                        src="assets/images/layouts/dark-rtl.png"
-                        class="img-fluid img-thumbnail"
-                        alt=""
-                      />
-                    </div>
-                    <div class="custom-control custom-switch mb-5">
-                      <input
-                        type="checkbox"
-                        class="custom-control-input theme-choice"
-                        id="dark-rtl-mode-switch"
-                        data-bsStyle="assets/css/bootstrap-dark.min.css"
-                        data-appStyle="assets/css/app-dark-rtl.min.css"
-                      />
-                      <label
-                        class="custom-control-label"
-                        for="dark-rtl-mode-switch"
-                      >
-                        Dark RTL Mode
-                      </label>
-                    </div>
-
-                    <a
-                      href="https://1.envato.market/y2YAD"
-                      class="btn btn-danger btn-block mt-3"
-                      target="_blank"
-                    >
-                      <i class="mdi mdi-download mr-1"></i> Download Now
-                    </a>
-                  </div>
-                </div>
-              </div>
             </li>
           </ul>
 
+          {/* <!-- LOGO --> */}
           <div class="logo-box">
             <a href="/DashboardKsl" class="logo text-center">
               <span class="logo-lg">
@@ -420,8 +307,10 @@ function Header() {
                   alt=""
                   height="25"
                 />
+                {/* <!-- <span class="logo-lg-text-light">UBold</span> --> */}
               </span>
               <span class="logo-sm">
+                {/* <!-- <span class="logo-sm-text-dark">U</span> --> */}
                 <img
                   src="https://xn--12car4jyaq2b.com/img/logo.svg"
                   alt=""
@@ -458,9 +347,12 @@ function Header() {
             </li>
           </ul>
         </div>
+        {/* <!-- end Topbar --> */}
 
-        <div class="left-side-menu">
+        {/* <!-- ========== Left Sidebar Start ========== --> */}
+        <div class="left-side-menu headbar">
           <div class="slimscroll-menu">
+            {/* <!--- Sidemenu --> */}
             <div id="sidebar-menu">
               <ul class="metismenu" id="side-menu">
                 <li class="menu-title">Navigation</li>
@@ -484,15 +376,24 @@ function Header() {
                 </li>
               </ul>
             </div>
+            {/* <!-- End Sidebar --> */}
 
             <div class="clearfix"></div>
           </div>
+          {/* <!-- Sidebar -left --> */}
         </div>
+        {/* <!-- Left Sidebar End --> */}
+
+        {/* <!-- ============================================================== --> */}
+        {/* <!-- Start Page Content here --> */}
+        {/* <!-- ============================================================== --> */}
 
         <div class="content-page">
           <div class="content">
+            {/* <!-- Start Content--> */}
             <div class="container-fluid">
-              <div class="row">
+              {/* <!-- start page title --> */}
+              <div class="row headbar">
                 <div class="col-12">
                   <div class="page-title-box">
                     <div class="page-title-right">
@@ -510,23 +411,38 @@ function Header() {
                   </div>
                 </div>
               </div>
+              {/* <!-- end page title --> */}
+              {/* 
+              <div id="root"></div> */}
               <div class="row">
                 <MainPage />
               </div>
+
+              {/* <!-- end row --> */}
+
+              {/* <!-- end row --> */}
+
+              {/* <!--- end row --> */}
             </div>
+            {/* <!-- end container-fluid --> */}
           </div>
-          <footer class="footer">
+          {/* <!-- end content --> */}
+
+          {/* <!-- Footer Start --> */}
+          <footer class="footer headbar">
             <div class="container-fluid">
               <div class="row">
                 <div class="col-md-12">Kongsalak Report</div>
               </div>
             </div>
           </footer>
+          {/* <!-- end Footer --> */}
         </div>
+
+        {/* <!-- ============================================================== --> */}
+        {/* <!-- End Page content --> */}
+        {/* <!-- ============================================================== --> */}
       </div>
-      {/* <a href="javascript:void(0);" class="right-bar-toggle demos-show-btn">
-        <i class="mdi mdi-settings-outline mdi-spin"></i> &nbsp;Choose Demos
-      </a> */}
 
       <div class="right-bar">
         <div class="rightbar-title">

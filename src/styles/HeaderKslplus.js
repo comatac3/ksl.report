@@ -1,24 +1,10 @@
 import React from "react";
 import { Link } from "react-router-dom";
+import MainPageKslplus from "../components/MainPageKslplus";
 
 function HeaderKslplus() {
   return (
-    <div>
-      {/* <link href="assets/libs/c3/c3.min.css" rel="stylesheet" type="text/css" />
-      <link
-        href="assets/css/bootstrap.min.css"
-        rel="stylesheet"
-        type="text/css"
-        id="bootstrap-stylesheet"
-      />
-      <link href="assets/css/icons.min.css" rel="stylesheet" type="text/css" />
-      <link
-        href="assets/css/app.min.css"
-        rel="stylesheet"
-        type="text/css"
-        id="app-stylesheet"
-      /> */}
-
+    <>
       <div id="wrapper">
         <div class="navbar-custom">
           <ul class="list-unstyled topnav-menu float-right mb-0">
@@ -387,6 +373,10 @@ function HeaderKslplus() {
                   </div>
                 </div>
               </div>
+
+              <div class="row">
+                <MainPageKslplus />
+              </div>
             </div>
           </div>
           <footer class="footer">
@@ -399,7 +389,7 @@ function HeaderKslplus() {
         </div>
       </div>
 
-      {/* <div class="right-bar">
+      <div class="right-bar">
         <div class="rightbar-title">
           <a href="javascript:void(0);" class="right-bar-toggle float-right">
             <i class="mdi mdi-close"></i>
@@ -499,8 +489,8 @@ function HeaderKslplus() {
           </div>
         </div>
       </div>
-      <div class="rightbar-overlay"></div> */}
-    </div>
+      <div class="rightbar-overlay"></div>
+    </>
   );
 }
 

@@ -305,12 +305,17 @@ function MainPageKslplus() {
   };
 
   let test = dateClicked;
-  const dataSum = {};
+  let dataSum = {};
   Object.entries(orderHour).forEach(([key, val]) => {
-    if (key.slice(0, -6).localeCompare(test) === 0) {
+    if (
+      key.slice(0, -6).localeCompare(test) === 0
+      // parseInt(key.slice(10)) + 7
+    ) {
       dataSum[key] = val.split(",");
+      //console.log();
     }
   });
+  console.log("dataSum", dataSum);
 
   const sortedSum = Object.keys(dataSum)
     .sort()
@@ -320,7 +325,22 @@ function MainPageKslplus() {
     }, {});
 
   const dataDateTime = Object.keys(sortedSum);
+  console.log("dataDateTime", dataDateTime);
   const timeHour = dataDateTime.map((s) => s.slice(10));
+  //console.log("old", timeHour);
+  const tim = timeHour.map((n) => parseInt(n) + 7);
+  const result = tim.filter((word) => parseInt(word) > 23);
+  const result2 = tim.filter((word) => parseInt(word) < 24);
+  let h1 = result.map((i) => i - 24 + ":00");
+  console.log("h1", h1);
+  const h2 = result2.map((i) => i + ":00");
+  console.log("h2", h2);
+  // h2.forEach((element) => {
+  //   h1.push(element);
+  // });
+  h1.push(...h2);
+  console.log("h11", h1);
+
   const dataMinute = Object.values(sortedSum);
   const sum = dataMinute.map((p) =>
     p.reduce((prev, curr) => prev + parseInt(curr), 0)
@@ -333,10 +353,10 @@ function MainPageKslplus() {
         label: "ยอดขายรายวัน (ใบ)",
         data: value,
         fill: false,
-        backgroundColor: "rgb(100, 197, 177)",
-        borderColor: "rgba(100, 197, 177, 0.2)",
+        backgroundColor: "#7DCEA0",
+        borderColor: "#7DCEA0",
         pointStyle: "circle",
-        pointBackgroundColor: "rgb(0,222,0)",
+        pointBackgroundColor: "#229954",
         pointRadius: 5,
         pointHoverRadius: 10,
       },
@@ -344,10 +364,10 @@ function MainPageKslplus() {
         label: "จำนวน transection",
         data: transection,
         fill: false,
-        backgroundColor: "rgb(255, 99, 132)",
-        borderColor: "rgba(255, 99, 132, 0.2)",
+        backgroundColor: "#F8BBD0",
+        borderColor: "#F8BBD0",
         pointStyle: "rect",
-        pointBackgroundColor: "rgb(220,20,60)",
+        pointBackgroundColor: "#EC407A",
         pointRadius: 5,
         pointHoverRadius: 10,
       },
@@ -355,16 +375,16 @@ function MainPageKslplus() {
   };
 
   const data2 = {
-    labels: timeHour,
+    labels: h1,
     datasets: [
       {
         label: "จำนวน transection วันที่ " + dateClicked,
         data: sum,
         fill: false,
-        backgroundColor: "rgb(255, 99, 132)",
-        borderColor: "rgba(255, 99, 132, 0.2)",
+        backgroundColor: "#F48FB1",
+        borderColor: "#F48FB1",
         pointStyle: "rect",
-        pointBackgroundColor: "rgb(220,20,60)",
+        pointBackgroundColor: "#EC407A",
         pointRadius: 5,
         pointHoverRadius: 10,
       },
@@ -378,10 +398,10 @@ function MainPageKslplus() {
         label: "จำนวน transection เวลา " + hourClicked + " น.",
         data: dataMinute[minuteClicked],
         fill: false,
-        backgroundColor: "rgb(255, 99, 132)",
-        borderColor: "rgba(255, 99, 132, 0.2)",
+        backgroundColor: "#F48FB1",
+        borderColor: "#F48FB1",
         pointStyle: "rect",
-        pointBackgroundColor: "rgb(220,20,60)",
+        pointBackgroundColor: "#EC407A",
         pointRadius: 5,
         pointHoverRadius: 10,
       },
