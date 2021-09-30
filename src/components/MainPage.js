@@ -3,7 +3,8 @@ import { Line } from "react-chartjs-2";
 import ChartDataLabels from "chartjs-plugin-datalabels";
 import "chartjs-plugin-datalabels";
 import { Chart } from "chart.js";
-import Header from "../styles/Header";
+import HeaderKslplus from "../styles/HeaderKslplus";
+import CheckableTag from "antd/lib/tag/CheckableTag";
 Chart.register(ChartDataLabels);
 
 const axios = require("axios");
@@ -26,7 +27,7 @@ const boldcss = {
 //StatCol component
 function StatCol(data) {
   return (
-    <Fragment class="row">
+    <Fragment>
       <div className="col-xl-3 col-sm-6">
         <div className="card-box widget-box-two widget-two-custom">
           <div className="media">
@@ -67,8 +68,9 @@ function StatCol(data) {
                 </span>
               </h3>
               <p className="m-0" style={boldcss}>
-                {data.saleordercount} order
+                {[data.saleordercount].toLocaleString()} order
               </p>
+              {/* {console.log("test", [data.saleordercount].toLocaleString())} */}
               {/* <p class="m-0">งวดที่ 1 สิงหาคม</p> */}
             </div>
           </div>
@@ -77,7 +79,7 @@ function StatCol(data) {
     </Fragment>
   );
 }
-function MainPage() {
+function MainPageKslplus() {
   // let fullReportData = {
   //   totalLottery: 0,
   //   saleSuccess: 0,
@@ -92,6 +94,7 @@ function MainPage() {
   const [today, getToday] = useState({});
   const [orderdate, getOrderDate] = useState({});
   const [orderHour, getOrderHour] = useState({});
+  const [lotteryHour, getLotteryHour] = useState({});
   const [orderCount, getOrderCount] = useState({
     success: "waiting",
     confirmed: "waiting",
@@ -152,6 +155,14 @@ function MainPage() {
         const resp = response.data;
         getOrderHour(resp);
       });
+    axios
+      .get(
+        "https://asia-east2-kslproject.cloudfunctions.net/api/v1/serviceStatus/count-lottery-hour"
+      )
+      .then((response) => {
+        const resp = response.data;
+        getLotteryHour(resp);
+      });
 
     const interval = setInterval(() => {
       axios
@@ -197,12 +208,20 @@ function MainPage() {
           const resp = response.data;
           getOrderHour(resp);
         });
+
+      axios
+        .get(
+          "https://asia-east2-kslproject.cloudfunctions.net/api/v1/serviceStatus/count-lottery-hour"
+        )
+        .then((response) => {
+          const resp = response.data;
+          getLotteryHour(resp);
+        });
     }, MINUTE_MS);
     return () => clearInterval(interval);
   }, []);
 
   const day = Object.keys(today);
-
   var sortedDay = day.sort(function (a, b) {
     var aComps = a.split("/");
     var bComps = b.split("/");
@@ -236,9 +255,9 @@ function MainPage() {
       }
 
       if (element.length !== 0) {
-        if (element[0].datasetIndex === 0) {
-          return null;
-        }
+        // if (element[0].datasetIndex === 0) {
+        //   return null;
+        // }
 
         (async () => {
           const index = element[0]["index"];
@@ -254,6 +273,9 @@ function MainPage() {
         align: "end",
         font: {
           size: 12,
+        },
+        formatter: function (value, context) {
+          return value.toLocaleString().replaceAll(",", ",");
         },
       },
       title: {
@@ -292,6 +314,9 @@ function MainPage() {
         font: {
           size: 10,
         },
+        formatter: function (value, context) {
+          return value.toLocaleString().replaceAll(" ", " ");
+        },
       },
       title: {
         display: true,
@@ -305,12 +330,20 @@ function MainPage() {
   };
 
   let test = dateClicked;
-  const dataSum = {};
+  let dataSum = {};
   Object.entries(orderHour).forEach(([key, val]) => {
     if (key.slice(0, -6).localeCompare(test) === 0) {
       dataSum[key] = val.split(",");
+      //console.log();
     }
   });
+  let dataSum2 = {};
+  Object.entries(lotteryHour).forEach(([key2, val2]) => {
+    if (key2.slice(0, -6).localeCompare(test) === 0) {
+      dataSum2[key2] = val2.split(",");
+    }
+  });
+  //console.log("dataSum2", dataSum2);
 
   const sortedSum = Object.keys(dataSum)
     .sort()
@@ -318,11 +351,23 @@ function MainPage() {
       last[curre] = dataSum[curre];
       return last;
     }, {});
+  const sortedSum2 = Object.keys(dataSum2)
+    .sort()
+    .reduce((last, curre) => {
+      last[curre] = dataSum2[curre];
+      return last;
+    }, {});
+  //console.log("sortedSum2", sortedSum2);
 
   const dataDateTime = Object.keys(sortedSum);
+  console.log("dataDateTime", dataDateTime);
   const timeHour = dataDateTime.map((s) => s.slice(10));
   const dataMinute = Object.values(sortedSum);
   const sum = dataMinute.map((p) =>
+    p.reduce((prev, curr) => prev + parseInt(curr), 0)
+  );
+  const dataMinute2 = Object.values(sortedSum2);
+  const sum2 = dataMinute2.map((p) =>
     p.reduce((prev, curr) => prev + parseInt(curr), 0)
   );
 
@@ -333,10 +378,10 @@ function MainPage() {
         label: "ยอดขายรายวัน (ใบ)",
         data: value,
         fill: false,
-        backgroundColor: "rgb(100, 197, 177)",
-        borderColor: "rgba(100, 197, 177, 0.2)",
+        backgroundColor: "#7DCEA0",
+        borderColor: "#7DCEA0",
         pointStyle: "circle",
-        pointBackgroundColor: "rgb(0,222,0)",
+        pointBackgroundColor: "#229954",
         pointRadius: 5,
         pointHoverRadius: 10,
       },
@@ -344,10 +389,10 @@ function MainPage() {
         label: "จำนวน transection",
         data: transection,
         fill: false,
-        backgroundColor: "rgb(255, 99, 132)",
-        borderColor: "rgba(255, 99, 132, 0.2)",
+        backgroundColor: "#F8BBD0",
+        borderColor: "#F8BBD0",
         pointStyle: "rect",
-        pointBackgroundColor: "rgb(220,20,60)",
+        pointBackgroundColor: "#EC407A",
         pointRadius: 5,
         pointHoverRadius: 10,
       },
@@ -358,13 +403,24 @@ function MainPage() {
     labels: timeHour,
     datasets: [
       {
-        label: "จำนวน transection วันที่ " + dateClicked,
+        label: "ยอดขายรายชั่วโมง วันที่ " + dateClicked + " (ใบ)",
+        data: sum2,
+        fill: false,
+        backgroundColor: "#7DCEA0",
+        borderColor: "#7DCEA0",
+        pointStyle: "circle",
+        pointBackgroundColor: "#229954",
+        pointRadius: 5,
+        pointHoverRadius: 10,
+      },
+      {
+        label: "จำนวน transection",
         data: sum,
         fill: false,
-        backgroundColor: "rgb(255, 99, 132)",
-        borderColor: "rgba(255, 99, 132, 0.2)",
+        backgroundColor: "#F48FB1",
+        borderColor: "#F48FB1",
         pointStyle: "rect",
-        pointBackgroundColor: "rgb(220,20,60)",
+        pointBackgroundColor: "#EC407A",
         pointRadius: 5,
         pointHoverRadius: 10,
       },
@@ -375,13 +431,24 @@ function MainPage() {
     labels: minArr,
     datasets: [
       {
-        label: "จำนวน transection เวลา " + hourClicked + " น.",
+        label: "ยอดขายรายนาที เวลา " + hourClicked + " น. (ใบ)",
+        data: dataMinute2[minuteClicked],
+        fill: false,
+        backgroundColor: "#7DCEA0",
+        borderColor: "#7DCEA0",
+        pointStyle: "circle",
+        pointBackgroundColor: "#229954",
+        pointRadius: 5,
+        pointHoverRadius: 10,
+      },
+      {
+        label: "จำนวน transection",
         data: dataMinute[minuteClicked],
         fill: false,
-        backgroundColor: "rgb(255, 99, 132)",
-        borderColor: "rgba(255, 99, 132, 0.2)",
+        backgroundColor: "#F48FB1",
+        borderColor: "#F48FB1",
         pointStyle: "rect",
-        pointBackgroundColor: "rgb(220,20,60)",
+        pointBackgroundColor: "#EC407A",
         pointRadius: 5,
         pointHoverRadius: 10,
       },
@@ -394,7 +461,10 @@ function MainPage() {
         color: "black",
         align: "end",
         font: {
-          size: 9,
+          size: 10,
+        },
+        formatter: function (value, context) {
+          return value.toLocaleString().replaceAll(",", ",");
         },
       },
       title: {
@@ -408,34 +478,33 @@ function MainPage() {
     },
   };
 
-  if (notes) {
+  if (notes && pathname === "/DashboardKsl") {
     return (
       <Fragment>
-        {/* <Header /> */}
         <StatCol
-          sale={notes["(4)ทั้งหมด(1+2+3=4)"]}
+          sale={notes["(4)ทั้งหมด(1+2+3=4)"].toLocaleString()}
           name="ลอตเตอรี่ทั้งหมด"
-          saleordercount="..."
+          saleordercount="0"
         ></StatCol>
         <StatCol
-          sale={notes["(1)ขายแล้ว"]}
+          sale={notes["(1)ขายแล้ว"].toLocaleString()}
           name="ขายแล้ว"
           saleordercount={orderCount["success"]}
         ></StatCol>
         <StatCol
-          sale={notes["(2)รอตรวจสอบ"]}
+          sale={notes["(2)รอตรวจสอบ"].toLocaleString()}
           name="รอตรวจสอบ"
           saleordercount={orderCount["confirmed"]}
         ></StatCol>
         <StatCol
-          sale={notes["(1)ขายแล้ว"] + notes["(2)รอตรวจสอบ"]}
+          sale={[notes["(1)ขายแล้ว"] + notes["(2)รอตรวจสอบ"]].toLocaleString()}
           name="ขายรวม"
           saleordercount={orderCount["confirmed"] + orderCount["success"]}
         ></StatCol>
         <StatCol
-          sale={notes["(3)คงเหลือ"]}
+          sale={notes["(3)คงเหลือ"].toLocaleString()}
           name="คงเหลือ"
-          saleordercount="..."
+          saleordercount="0"
         ></StatCol>
 
         <div class="col-xl-12">
@@ -443,7 +512,7 @@ function MainPage() {
             <Line
               data={data}
               options={lineOptions}
-              plugins={[ChartDataLabels]}
+              // plugins={[ChartDataLabels]}
             />
             {dateClicked !== "" && (
               <Line
@@ -467,4 +536,4 @@ function MainPage() {
     return <div>waiting</div>;
   }
 }
-export default MainPage;
+export default MainPageKslplus;

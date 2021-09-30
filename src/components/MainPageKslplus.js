@@ -68,8 +68,9 @@ function StatCol(data) {
                 </span>
               </h3>
               <p className="m-0" style={boldcss}>
-                {data.saleordercount} order
+                {[data.saleordercount].toLocaleString()} order
               </p>
+              {/* {console.log("test", [data.saleordercount].toLocaleString())} */}
               {/* <p class="m-0">งวดที่ 1 สิงหาคม</p> */}
             </div>
           </div>
@@ -93,6 +94,7 @@ function MainPageKslplus() {
   const [today, getToday] = useState({});
   const [orderdate, getOrderDate] = useState({});
   const [orderHour, getOrderHour] = useState({});
+  const [lotteryHour, getLotteryHour] = useState({});
   const [orderCount, getOrderCount] = useState({
     success: "waiting",
     confirmed: "waiting",
@@ -153,6 +155,14 @@ function MainPageKslplus() {
         const resp = response.data;
         getOrderHour(resp);
       });
+    axios
+      .get(
+        "https://asia-east2-kslplus.cloudfunctions.net/api/v1/serviceStatus/count-lottery-hour"
+      )
+      .then((response) => {
+        const resp = response.data;
+        getLotteryHour(resp);
+      });
 
     const interval = setInterval(() => {
       axios
@@ -198,21 +208,20 @@ function MainPageKslplus() {
           const resp = response.data;
           getOrderHour(resp);
         });
+
+      axios
+        .get(
+          "https://asia-east2-kslplus.cloudfunctions.net/api/v1/serviceStatus/count-lottery-hour"
+        )
+        .then((response) => {
+          const resp = response.data;
+          getLotteryHour(resp);
+        });
     }, MINUTE_MS);
     return () => clearInterval(interval);
   }, []);
 
-  // Date.prototype.addHours = function (h) {
-  //   this.setHours(this.getHours() + h);
-  //   return this;
-  // };
-  // console.log(
-  //   "new hour",
-  //   new Date("9/26/2564 23:00").addHours(7).toLocaleString("th-TH").slice(9)
-  // );
-
   const day = Object.keys(today);
-
   var sortedDay = day.sort(function (a, b) {
     var aComps = a.split("/");
     var bComps = b.split("/");
@@ -246,9 +255,9 @@ function MainPageKslplus() {
       }
 
       if (element.length !== 0) {
-        if (element[0].datasetIndex === 0) {
-          return null;
-        }
+        // if (element[0].datasetIndex === 0) {
+        //   return null;
+        // }
 
         (async () => {
           const index = element[0]["index"];
@@ -264,6 +273,9 @@ function MainPageKslplus() {
         align: "end",
         font: {
           size: 12,
+        },
+        formatter: function (value, context) {
+          return value.toLocaleString().replaceAll(",", ",");
         },
       },
       title: {
@@ -302,6 +314,9 @@ function MainPageKslplus() {
         font: {
           size: 10,
         },
+        formatter: function (value, context) {
+          return value.toLocaleString().replaceAll(" ", " ");
+        },
       },
       title: {
         display: true,
@@ -322,7 +337,13 @@ function MainPageKslplus() {
       //console.log();
     }
   });
-  console.log("dataSum", dataSum);
+  let dataSum2 = {};
+  Object.entries(lotteryHour).forEach(([key2, val2]) => {
+    if (key2.slice(0, -6).localeCompare(test) === 0) {
+      dataSum2[key2] = val2.split(",");
+    }
+  });
+  //console.log("dataSum2", dataSum2);
 
   const sortedSum = Object.keys(dataSum)
     .sort()
@@ -330,26 +351,23 @@ function MainPageKslplus() {
       last[curre] = dataSum[curre];
       return last;
     }, {});
+  const sortedSum2 = Object.keys(dataSum2)
+    .sort()
+    .reduce((last, curre) => {
+      last[curre] = dataSum2[curre];
+      return last;
+    }, {});
+  //console.log("sortedSum2", sortedSum2);
 
   const dataDateTime = Object.keys(sortedSum);
   console.log("dataDateTime", dataDateTime);
   const timeHour = dataDateTime.map((s) => s.slice(10));
-  //console.log("old", timeHour);
-  // const tim = timeHour.map((n) => parseInt(n) + 7);
-  // const result = tim.filter((word) => parseInt(word) > 23);
-  // const result2 = tim.filter((word) => parseInt(word) < 24);
-  // let h1 = result.map((i) => i - 24 + ":00");
-  // console.log("h1", h1);
-  // const h2 = result2.map((i) => i + ":00");
-  // console.log("h2", h2);
-  // // h2.forEach((element) => {
-  // //   h1.push(element);
-  // // });
-  // h1.unshift(...h2);
-  // console.log("h11", h1);
-
   const dataMinute = Object.values(sortedSum);
   const sum = dataMinute.map((p) =>
+    p.reduce((prev, curr) => prev + parseInt(curr), 0)
+  );
+  const dataMinute2 = Object.values(sortedSum2);
+  const sum2 = dataMinute2.map((p) =>
     p.reduce((prev, curr) => prev + parseInt(curr), 0)
   );
 
@@ -385,7 +403,18 @@ function MainPageKslplus() {
     labels: timeHour,
     datasets: [
       {
-        label: "จำนวน transection วันที่ " + dateClicked,
+        label: "ยอดขายรายชั่วโมง วันที่ " + dateClicked + " (ใบ)",
+        data: sum2,
+        fill: false,
+        backgroundColor: "#7DCEA0",
+        borderColor: "#7DCEA0",
+        pointStyle: "circle",
+        pointBackgroundColor: "#229954",
+        pointRadius: 5,
+        pointHoverRadius: 10,
+      },
+      {
+        label: "จำนวน transection",
         data: sum,
         fill: false,
         backgroundColor: "#F48FB1",
@@ -402,7 +431,18 @@ function MainPageKslplus() {
     labels: minArr,
     datasets: [
       {
-        label: "จำนวน transection เวลา " + hourClicked + " น.",
+        label: "ยอดขายรายนาที เวลา " + hourClicked + " น. (ใบ)",
+        data: dataMinute2[minuteClicked],
+        fill: false,
+        backgroundColor: "#7DCEA0",
+        borderColor: "#7DCEA0",
+        pointStyle: "circle",
+        pointBackgroundColor: "#229954",
+        pointRadius: 5,
+        pointHoverRadius: 10,
+      },
+      {
+        label: "จำนวน transection",
         data: dataMinute[minuteClicked],
         fill: false,
         backgroundColor: "#F48FB1",
@@ -421,7 +461,10 @@ function MainPageKslplus() {
         color: "black",
         align: "end",
         font: {
-          size: 9,
+          size: 10,
+        },
+        formatter: function (value, context) {
+          return value.toLocaleString().replaceAll(",", ",");
         },
       },
       title: {
@@ -439,29 +482,29 @@ function MainPageKslplus() {
     return (
       <Fragment>
         <StatCol
-          sale={notes["(4)ทั้งหมด(1+2+3=4)"]}
+          sale={notes["(4)ทั้งหมด(1+2+3=4)"].toLocaleString()}
           name="ลอตเตอรี่ทั้งหมด"
-          saleordercount="..."
+          saleordercount="0"
         ></StatCol>
         <StatCol
-          sale={notes["(1)ขายแล้ว"]}
+          sale={notes["(1)ขายแล้ว"].toLocaleString()}
           name="ขายแล้ว"
           saleordercount={orderCount["success"]}
         ></StatCol>
         <StatCol
-          sale={notes["(2)รอตรวจสอบ"]}
+          sale={notes["(2)รอตรวจสอบ"].toLocaleString()}
           name="รอตรวจสอบ"
           saleordercount={orderCount["confirmed"]}
         ></StatCol>
         <StatCol
-          sale={notes["(1)ขายแล้ว"] + notes["(2)รอตรวจสอบ"]}
+          sale={[notes["(1)ขายแล้ว"] + notes["(2)รอตรวจสอบ"]].toLocaleString()}
           name="ขายรวม"
           saleordercount={orderCount["confirmed"] + orderCount["success"]}
         ></StatCol>
         <StatCol
-          sale={notes["(3)คงเหลือ"]}
+          sale={notes["(3)คงเหลือ"].toLocaleString()}
           name="คงเหลือ"
-          saleordercount="..."
+          saleordercount="0"
         ></StatCol>
 
         <div class="col-xl-12">
@@ -469,7 +512,7 @@ function MainPageKslplus() {
             <Line
               data={data}
               options={lineOptions}
-              plugins={[ChartDataLabels]}
+              // plugins={[ChartDataLabels]}
             />
             {dateClicked !== "" && (
               <Line
