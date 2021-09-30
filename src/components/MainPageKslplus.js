@@ -4,6 +4,7 @@ import ChartDataLabels from "chartjs-plugin-datalabels";
 import "chartjs-plugin-datalabels";
 import { Chart } from "chart.js";
 import HeaderKslplus from "../styles/HeaderKslplus";
+import CheckableTag from "antd/lib/tag/CheckableTag";
 Chart.register(ChartDataLabels);
 
 const axios = require("axios");
@@ -201,6 +202,15 @@ function MainPageKslplus() {
     return () => clearInterval(interval);
   }, []);
 
+  // Date.prototype.addHours = function (h) {
+  //   this.setHours(this.getHours() + h);
+  //   return this;
+  // };
+  // console.log(
+  //   "new hour",
+  //   new Date("9/26/2564 23:00").addHours(7).toLocaleString("th-TH").slice(9)
+  // );
+
   const day = Object.keys(today);
 
   var sortedDay = day.sort(function (a, b) {
@@ -307,10 +317,7 @@ function MainPageKslplus() {
   let test = dateClicked;
   let dataSum = {};
   Object.entries(orderHour).forEach(([key, val]) => {
-    if (
-      key.slice(0, -6).localeCompare(test) === 0
-      // parseInt(key.slice(10)) + 7
-    ) {
+    if (key.slice(0, -6).localeCompare(test) === 0) {
       dataSum[key] = val.split(",");
       //console.log();
     }
@@ -328,18 +335,18 @@ function MainPageKslplus() {
   console.log("dataDateTime", dataDateTime);
   const timeHour = dataDateTime.map((s) => s.slice(10));
   //console.log("old", timeHour);
-  const tim = timeHour.map((n) => parseInt(n) + 7);
-  const result = tim.filter((word) => parseInt(word) > 23);
-  const result2 = tim.filter((word) => parseInt(word) < 24);
-  let h1 = result.map((i) => i - 24 + ":00");
-  console.log("h1", h1);
-  const h2 = result2.map((i) => i + ":00");
-  console.log("h2", h2);
-  // h2.forEach((element) => {
-  //   h1.push(element);
-  // });
-  h1.push(...h2);
-  console.log("h11", h1);
+  // const tim = timeHour.map((n) => parseInt(n) + 7);
+  // const result = tim.filter((word) => parseInt(word) > 23);
+  // const result2 = tim.filter((word) => parseInt(word) < 24);
+  // let h1 = result.map((i) => i - 24 + ":00");
+  // console.log("h1", h1);
+  // const h2 = result2.map((i) => i + ":00");
+  // console.log("h2", h2);
+  // // h2.forEach((element) => {
+  // //   h1.push(element);
+  // // });
+  // h1.unshift(...h2);
+  // console.log("h11", h1);
 
   const dataMinute = Object.values(sortedSum);
   const sum = dataMinute.map((p) =>
@@ -375,7 +382,7 @@ function MainPageKslplus() {
   };
 
   const data2 = {
-    labels: h1,
+    labels: timeHour,
     datasets: [
       {
         label: "จำนวน transection วันที่ " + dateClicked,
